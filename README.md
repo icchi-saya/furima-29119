@@ -9,7 +9,7 @@
 |last_name_kana    |string|null:false|
 |email             |string|null:false|
 |encrypted_password|string|null:false|
-|birthday          |data  |null:false|
+|birthday          |date |null:false|
 
 ### Association
 
@@ -18,17 +18,17 @@
 
 ##  products テーブル
 
-|Column            |Type      |Options   |
-| ---------------- | -------- | -------- |　
-|product_name      |string    |null:false|
-|description       |text      |null:false|
-|category_id       |integer   |null:false|
-|status_id         |integer   |null:false|
-|shipping_charge_id|integer   |null:false|
-|shipping_area_id  |integer   |null:false|
-|days_ship_id      |integer   |null:false|
-|price             |integer   |null:false|
-|user              |references|null:false|
+|Column            |Type      |Options                    |
+| ---------------- | -------- | ------------------------- |　
+|product_name      |string    |null:false                 |
+|description       |text      |null:false                 |
+|category_id       |integer   |null:false                 |
+|status_id         |integer   |null:false                 |
+|shipping_charge_id|integer   |null:false                 |
+|shipping_area_id  |integer   |null:false                 |
+|days_ship_id      |integer   |null:false                 |
+|price             |integer   |null:false                 |
+|user              |references|null:false,foreign_key:true|
 
 ### Association
 
@@ -54,12 +54,11 @@
 | ------------- | -------- | -------------------------- |
 |postal_code    |string    |null:false                  |
 |prefectures_id |integer   |null:false                  |
-|city           |string    |                            |
+|city           |string    |null:false                  |
 |house_number   |string    |null:false                  |
-|apartment      |string    |null:false                  |
+|apartment      |string    |                            |
 |phone_number   |string    |null:false                  |
 |purchase_record|references|null:false, foreign_key:true|
-
 
 ### Association
 
