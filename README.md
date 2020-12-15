@@ -48,7 +48,7 @@
 - belongs_to : product
 - has_one : user_address
 
-## user_address テーブル
+## users_address テーブル
 
 |Column         |Type      |Options                     |
 | ------------- | -------- | -------------------------- |
