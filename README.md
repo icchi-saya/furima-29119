@@ -35,7 +35,7 @@
 - belongs_to : user
 - has_one : purchase_record
 
-## purchase_record
+## purchases_record
 
 |Column      |Type      |Options                     |
 | ---------- | -------- | ---------------------------|
