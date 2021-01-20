@@ -10,11 +10,6 @@ RSpec.describe User, type: :model do
       it "全ての必須項目が埋まっていれば登録できる" do
         expect(@user).to be_valid
       end
-      it "passwordとpassword_confirmationが６文字以上の半角英数混合であれば登録できる" do
-        @user.password = "aaa0000"
-        @user.password = "aaa0000"
-        expect(@user).to be_valid
-      end
     end
     context '新規登録できない時' do
       it "nicknameが空では登録できない" do
@@ -26,6 +21,11 @@ RSpec.describe User, type: :model do
         @user.email = ""
         @user.valid?
         expect(@user.errors.full_messages).to include("Email can't be blank")
+      end
+      it "emailには@がないと登録できない" do
+        @user.email = "aaaabbbbb"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email is invalid")
       end
       it "passwordが空では登録できない" do
         @user.password = ""
@@ -40,12 +40,12 @@ RSpec.describe User, type: :model do
       it "passwordがアルファベットのみでは登録できない" do
         @user.password = "aaaaaa"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        expect(@user.errors.full_messages).to include("Password Include both letters and numbers")
       end
       it "passwordが数字のみでは登録できない" do
         @user.password = "000000"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        expect(@user.errors.full_messages).to include("Password Include both letters and numbers")
       end
       it "passwordが5文字以下では登録できない" do
         @user.password = "aa000"
@@ -54,24 +54,20 @@ RSpec.describe User, type: :model do
       end
       it "first_nameが漢字かカナ文字、かな文字でなければ登録ができない" do
         @user.first_name = 'test'
-        # @user.last_name = "0"
         @user.valid?
         expect(@user.errors.full_messages).to include("First name Full-width characters")
       end
       it "last_nameが漢字かカナ文字、かな文字でなければ登録ができない" do
-        # @user.first_name = "0"
         @user.last_name = 'test'
         @user.valid?
         expect(@user.errors.full_messages).to include("Last name Full-width characters")
       end
       it "first_name_kanaがカナ文字以外では登録ができない" do
         @user.first_name_kana = 'やまだ'
-        # @user.last_name_kana = 'はなこ'
         @user.valid?
         expect(@user.errors.full_messages).to include("First name kana kana Full-width katakana characters")
       end
       it "last_name_lanaがカナ文字以外では登録ができない" do
-        # @user.first_name_kana = 'やまだ'
         @user.last_name_kana = 'はなこ'
         @user.valid?
         expect(@user.errors.full_messages).to include("Last name kana kana Full-width katakana characters")
