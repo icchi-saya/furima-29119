@@ -3,9 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  has_many :products
 
   with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message:'Full-width characters'} do
-  validates :first_name
+    validates :first_name
     validates :last_name
   end
   
