@@ -13,7 +13,8 @@ class Product < ApplicationRecord
   validates :image
   validates :product_name, length: { maximum: 40 }
   validates :description, length: { maximum: 1000 }
-  validates :price, format: { with: /\A[0-9]+\z/, message:'Half-width numbers only'}, numericality: {only_integer: true, less_than_or_equal_to: 9999999, greater_than_or_equal_to: 300 }
+  validates :price, numericality: {only_integer: true, less_than_or_equal_to: 9999999, greater_than_or_equal_to: 300 }
+  #format: { with: /\A[0-9]+\z/, message:'Half-width numbers only'}
   end
 
   with_options numericality: { other_than: 1 , message: 'selection is mandatory' } do
