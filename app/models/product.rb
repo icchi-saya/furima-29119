@@ -9,8 +9,8 @@ class Product < ApplicationRecord
   belongs_to :shipping_area
   belongs_to :days_ship
 
-  with_options do
-  validates :image, presence: true
+  with_options presence: true do
+  validates :image
   validates :product_name, length: { maximum: 40 }
   validates :description, length: { maximum: 1000 }
   validates :price, format: { with: /\A[0-9]+\z/, message:'Half-width numbers only'}, numericality: {only_integer: true, less_than_or_equal_to: 9999999, greater_than_or_equal_to: 300 }
