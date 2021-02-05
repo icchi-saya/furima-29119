@@ -78,6 +78,21 @@ RSpec.describe Product, type: :model do
         @product.valid?
         expect(@product.errors.full_messages).to include("Price must be less than or equal to 9999999")
       end
+      it "販売価格は全角文字では登録できない" do
+        @product.price = "あいうえお"
+        @product.valid?
+        expect(@product.errors.full_messages).to include("Price is not a number")
+      end
+      it "販売価格は英数混合では登録できない" do
+        @product.price = "aa22"
+        @product.valid?
+        expect(@product.errors.full_messages).to include("Price is not a number")
+      end
+      it "販売価格は半角英語だけでは登録できない" do
+        @product.price = "aaa"
+        @product.valid?
+        expect(@product.errors.full_messages).to include("Price is not a number")
+      end
       it "ユーザーが紐付いていないとツイートは保存できない" do
         @product.user = nil
         @product.valid?
