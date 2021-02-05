@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   belongs_to :shipping_area
   belongs_to :days_ship
 
-  with_options presence: true do
+  with_options do
   validates :image, presence: true
   validates :product_name, length: { maximum: 40 }
   validates :description, length: { maximum: 1000 }
