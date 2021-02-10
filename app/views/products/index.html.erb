@@ -130,7 +130,7 @@
 
       <% @products.each do |product| %>
         <li class='list'>
-          <%= link_to "#" do %>
+          <%= link_to product_path(product.id) do %>
             <div class='item-img-content'>
               <%= image_tag product.image, class: "item-img" %>
 
@@ -161,7 +161,7 @@
       <% end %>
       
         <%# 商品がない場合のダミー %>
-        <% if @products.blank?              %>
+        <% if @products.blank? %>
           <%# 商品がある場合は表示されないようにしましょう %>
           <li class='list'>
             <%= link_to '#' do %>
