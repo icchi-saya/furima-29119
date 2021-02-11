@@ -53,7 +53,7 @@ class ProductsController < ApplicationController
   end
 
   def seller_only
-    return redirect_to root_path if current_user.id != @item.user.id
+    return redirect_to root_path if current_user.id != @product.user.id  
   end
 
 end
