@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :products
-  has_many :purchase_records
 
   with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message:'Full-width characters'} do
     validates :first_name
