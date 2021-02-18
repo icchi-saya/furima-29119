@@ -134,14 +134,14 @@
             <div class='item-img-content'>
               <%= image_tag product.image, class: "item-img" %>
 
-              <%# 商品が売れていればsold outを表示しましょう %>
-            <%# if %>
+          <%# 商品が売れていればsold outを表示しましょう %>
+            <% if product.purchase_record %>
               <div class='sold-out'>
                 <span>Sold Out!!</span>
               </div>
-            <%# else %>
-            <%# end %>
-              <%# //商品が売れていればsold outを表示しましょう %>
+            <% else %>
+            <% end %>
+          <%# //商品が売れていればsold outを表示しましょう %>
             </div>
             <div class='item-info'>
               <h3 class='item-name'>

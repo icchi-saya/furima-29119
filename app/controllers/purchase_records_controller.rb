@@ -1,6 +1,11 @@
 class PurchaseRecordsController < ApplicationController
-    def index
-    @product = Product.find(params[:product_id])
+  before_action :authenticate_user!
+  before_action :set_product, only: [:index, :create]
+  before_action :buyer_only, only: [:index]
+  before_action :sold_out, only: [:index]
+  
+
+  def index
     @purchase_user = PurchaseUser.new
   end
 
@@ -9,7 +14,6 @@ class PurchaseRecordsController < ApplicationController
   end
   
   def create
-    @product = Product.find(params[:product_id])
     @purchase_user = PurchaseUser.new(purchase_params)
     if @purchase_user.valid?
       pay_product
@@ -21,6 +25,10 @@ class PurchaseRecordsController < ApplicationController
   end
 
   private
+
+  def set_product
+    @product = Product.find(params[:product_id])
+  end
 
   def purchase_params
     params.require(:purchase_user).permit(:postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number).merge(product_id: params[:product_id],user_id: current_user.id,token: params[:token])
@@ -35,6 +43,13 @@ class PurchaseRecordsController < ApplicationController
     )
   end
 
+  def buyer_only
+    return redirect_to root_path if current_user.id == @product.user.id  
+  end
+
+  def sold_out
+    return redirect_to root_path if @product.purchase_record
+  end
 end
 
 
