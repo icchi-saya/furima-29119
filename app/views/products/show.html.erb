@@ -23,13 +23,12 @@
       </span>
     </div>
 
-    <% if user_signed_in? %>
+    <% if user_signed_in? && @product.purchase_record == nil %>
       <%# ログインしているユーザーと出品しているユーザーで処理分け %>
       <% if current_user.id == @product.user_id %>
         <%= link_to '商品の編集', edit_product_path, method: :get, class: "item-red-btn" %>
         <p class='or-text'>or</p>
         <%= link_to '削除', product_path(@product.id), method: :delete, class:'item-destroy' %>
-      <% elsif @product.purchase_record %>
       <% else %>
       <%# 商品が売れていない場合購入ボタン表示 %>
         <%= link_to '購入画面に進む', product_purchase_records_path(@product.id), class:"item-red-btn"%>
