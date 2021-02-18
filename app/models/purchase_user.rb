@@ -1,6 +1,6 @@
 class PurchaseUser
   include ActiveModel::Model
-  attr_accessor :postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number, :user_id, :product_id
+  attr_accessor :postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number, :user_id, :product_id, :token
 
   with_options presence: true do
     validates :prefectures_id, numericality: { other_than: 1 , message: 'selection is mandatory'} 
@@ -8,6 +8,7 @@ class PurchaseUser
     validates :house_number
     validates :postal_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)" }
     validates :phone_number, format: { with: /\A\d{10,11}\z/, message: "Half-width numbers only" }
+    validates :token
   end
   def save
     #購入情報
