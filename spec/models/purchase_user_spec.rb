@@ -59,6 +59,18 @@ RSpec.describe PurchaseUser, type: :model do
         @purchase_user.valid?
         expect(@purchase_user.errors.full_messages).to include("Phone number Half-width numbers only")
       end
+
+      it "user_idが空では登録できない" do
+        @purchase_user.user_id = nil
+        @purchase_user.valid?
+        expect(@purchase_user.errors.full_messages).to include("User can't be blank")
+      end
+
+      it "product_idが空では登録できない" do
+        @purchase_user.product_id = nil
+        @purchase_user.valid?
+        expect(@purchase_user.errors.full_messages).to include("Product can't be blank")
+      end
     end
   end
 end

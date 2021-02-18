@@ -1,16 +1,16 @@
 class PurchaseRecordsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: [:index, :create]
-  before_action :buyer_only, only: [:index]
-  before_action :sold_out, only: [:index]
+  #before_action :buyer_only, only: [:index]
+  #before_action :sold_out, only: [:index]
   
 
   def index
+    return redirect_to root_path current_user.id == @product.user.id || @product.purchase_record
     @purchase_user = PurchaseUser.new
   end
 
   def new
-    @purchase_user = PurchaseUser.new
   end
   
   def create
@@ -37,32 +37,17 @@ class PurchaseRecordsController < ApplicationController
   def pay_product
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
-      amount: @product.price,  # 商品の値段
-      card: purchase_params[:token],    # カードトークン
-      currency: 'jpy'                 # 通貨の種類（日本円）
+      amount: @product.price, 
+      card: purchase_params[:token], 
+      currency: 'jpy'                
     )
   end
 
-  def buyer_only
-    return redirect_to root_path if current_user.id == @product.user.id  
-  end
+  #def buyer_only
+   # return redirect_to root_path if current_user.id == @product.user.id  
+  #end
 
-  def sold_out
-    return redirect_to root_path if @product.purchase_record
-  end
+  #def sold_out
+    #return redirect_to root_path if @product.purchase_record
+  #end
 end
-
-
-#paramsの受け取り
-
-#paramsの形
-#1. 一重のparams    parameters: {:name => "tanaka", :address => "osaka"}
-# params.permit(:name, :address)
-
-#paramsの形
-#3. 二重のparams    parameters: {:user => {:name => "tanaka", :address => "osaka"}}
-# params.require(:user).permit(:name, :address)
-
-#paramsの形
-#3. 複合のparams    parameters: {:user => {:name => "tanaka", :address => "osaka"}, :token => "tok_1234"}
-# params.require(:user).permit(:name, :address).merge(token: params[:token])
