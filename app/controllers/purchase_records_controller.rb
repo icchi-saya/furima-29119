@@ -9,13 +9,12 @@ class PurchaseRecordsController < ApplicationController
   end
   
   def create
-    @product = Product.find(params[:product_id])
     @purchase_user = PurchaseUser.new(purchase_params)
     if @purchase_user.valid?
-      pay_product
-      @purchase_user.save
-      redirect_to root_path
+    @purchase_user.save
+    redirect_to root_path
     else
+      @product = Product.find(params[:product_id])
       render :index
     end
   end
@@ -23,16 +22,7 @@ class PurchaseRecordsController < ApplicationController
   private
 
   def purchase_params
-    params.require(:purchase_user).permit(:postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number).merge(product_id: params[:product_id],user_id: current_user.id,token: params[:token])
-  end
-
-  def pay_product
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    Payjp::Charge.create(
-      amount: @product.price,  # 商品の値段
-      card: purchase_params[:token],    # カードトークン
-      currency: 'jpy'                 # 通貨の種類（日本円）
-    )
+    params.require(:purchase_user).permit(:postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number).merge(product_id: params[:product_id],user_id: current_user.id)
   end
 
 end

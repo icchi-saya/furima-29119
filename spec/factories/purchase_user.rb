@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :purchase_user do
-    token           {"tok_abcdefghijk00000000000000000"}
     postal_code     { "123-4567" }
     prefectures_id  { 2 }
     city            {"大阪府枚方市"}

@@ -13,12 +13,6 @@ RSpec.describe PurchaseUser, type: :model do
     end
 
     context "商品が購入できない場合" do
-      it "tokenが空では登録できない" do
-        @purchase_user.token = nil
-        @purchase_user.valid?
-        expect(@purchase_user.errors.full_messages).to include("Token can't be blank")
-      end
-
       it "郵便番号を入力しなければ購入できない" do
         @purchase_user.postal_code = ""
         @purchase_user.valid?
