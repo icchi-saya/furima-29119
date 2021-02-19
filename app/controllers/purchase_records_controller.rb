@@ -1,16 +1,10 @@
 class PurchaseRecordsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: [:index, :create]
-  #before_action :buyer_only, only: [:index]
-  #before_action :sold_out, only: [:index]
-  
 
   def index
-    return redirect_to root_path current_user.id == @product.user.id || @product.purchase_record
+    return redirect_to root_path if current_user.id == @product.user.id || @product.purchase_record
     @purchase_user = PurchaseUser.new
-  end
-
-  def new
   end
   
   def create
@@ -31,7 +25,7 @@ class PurchaseRecordsController < ApplicationController
   end
 
   def purchase_params
-    params.require(:purchase_user).permit(:postal_code, :prefectures_id, :city, :house_number, :apartment, :phone_number).merge(product_id: params[:product_id],user_id: current_user.id,token: params[:token])
+    params.require(:purchase_user).permit(:postal_code, :prefecture_id, :city, :house_number, :apartment, :phone_number).merge(product_id: params[:product_id],user_id: current_user.id,token: params[:token])
   end
 
   def pay_product
@@ -42,12 +36,4 @@ class PurchaseRecordsController < ApplicationController
       currency: 'jpy'                
     )
   end
-
-  #def buyer_only
-   # return redirect_to root_path if current_user.id == @product.user.id  
-  #end
-
-  #def sold_out
-    #return redirect_to root_path if @product.purchase_record
-  #end
 end

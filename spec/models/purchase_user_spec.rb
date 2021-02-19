@@ -2,12 +2,19 @@ require 'rails_helper'
 
 RSpec.describe PurchaseUser, type: :model do
   before do
-    @purchase_user = FactoryBot.build(:purchase_user)
+    user = FactoryBot.create(:user)
+    product = FactoryBot.create(:product)
+    @purchase_user = FactoryBot.build(:purchase_user, user_id: user.id, product_id: product.id)
+    sleep(1)
   end
 
   describe '商品の購入' do
     context "商品が購入できる場合" do
       it "全ての必須項目が入力されていれば保存できる" do
+        expect(@purchase_user).to be_valid
+      end
+
+      it "マンション名が入力されていなくても保存できる" do
         expect(@purchase_user).to be_valid
       end
     end
@@ -31,9 +38,9 @@ RSpec.describe PurchaseUser, type: :model do
       end
 
       it "都道府県の入力は必須" do
-        @purchase_user.prefectures_id = 1
+        @purchase_user.prefecture_id = 1
         @purchase_user.valid?
-        expect(@purchase_user.errors.full_messages).to include("Prefectures selection is mandatory")
+        expect(@purchase_user.errors.full_messages).to include("Prefecture selection is mandatory")
       end
 
       it "市区町村の入力は必須" do
@@ -56,6 +63,12 @@ RSpec.describe PurchaseUser, type: :model do
 
       it "電話番号の入力にハイフンは不要" do
         @purchase_user.phone_number = "090-9876-5432"
+        @purchase_user.valid?
+        expect(@purchase_user.errors.full_messages).to include("Phone number Half-width numbers only")
+      end
+
+      it "電話番号は12桁以上だと登録できない" do
+        @purchase_user.phone_number = "0909876543210"
         @purchase_user.valid?
         expect(@purchase_user.errors.full_messages).to include("Phone number Half-width numbers only")
       end
