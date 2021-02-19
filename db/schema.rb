@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_055418) do
+ActiveRecord::Schema.define(version: 2021_02_13_100514) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,28 @@ ActiveRecord::Schema.define(version: 2021_01_22_055418) do
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
+  create_table "purchase_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_purchase_records_on_product_id"
+    t.index ["user_id"], name: "index_purchase_records_on_user_id"
+  end
+
+  create_table "user_addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "postal_code", null: false
+    t.integer "prefecture_id", null: false
+    t.string "city", null: false
+    t.string "house_number", null: false
+    t.string "apartment", default: ""
+    t.string "phone_number", null: false
+    t.bigint "purchase_record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_record_id"], name: "index_user_addresses_on_purchase_record_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "nickname", null: false
     t.string "first_name", null: false
@@ -68,4 +90,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_055418) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "products", "users"
+  add_foreign_key "purchase_records", "products"
+  add_foreign_key "purchase_records", "users"
+  add_foreign_key "user_addresses", "purchase_records"
 end
