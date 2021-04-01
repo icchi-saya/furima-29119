@@ -126,7 +126,6 @@
     <%= link_to '新規投稿商品', "#", class: "subtitle" %>
     <ul class='item-lists'>
 
-
       <% @products.each do |product| %>
         <li class='list'>
           <%= link_to product_path(product.id) do %>
