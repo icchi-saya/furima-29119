@@ -10,6 +10,10 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
+  ActionCable.server.config.disable_request_forgery_protection = true
+  config.action_cable.url = "wss://git.heroku.com/hurima-29119.git.herokuapp.com/cable" 
+  config.action_cable.allowed_request_origins = ['https://git.heroku.com/hurima-29119.git.herokuapp.com', 'http://git.heroku.com/hurima-29119.git.herokuapp.com']
+
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true

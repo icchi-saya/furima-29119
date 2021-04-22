@@ -18,6 +18,10 @@ class ProductsController < ApplicationController
     else 
       render :new
     end
+
+    if @product.save
+      ActionCable.server.broadcast 'product_channel', content: @product
+    end
   end
 
   def show
