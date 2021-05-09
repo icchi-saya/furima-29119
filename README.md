@@ -15,11 +15,12 @@
 
 - has_many : products
 - has_many : purchase_records
+_ has_many : comments
 
 ##  products テーブル
 
 |Column            |Type      |Options                    |
-| ---------------- | -------- | ------------------------- |　
+| ---------------- | -------- | ------------------------- |
 |product_name      |string    |null:false                 |
 |description       |text      |null:false                 |
 |category_id       |integer   |null:false                 |
@@ -33,6 +34,7 @@
 ### Association
 
 - belongs_to : user
+- has_many : comments
 - has_one : purchase_record
 
 ## purchases_record
@@ -53,7 +55,7 @@
 |Column         |Type      |Options                     |
 | ------------- | -------- | -------------------------- |
 |postal_code    |string    |null:false                  |
-|prefecture_id |integer   |null:false                  |
+|prefecture_id  |integer   |null:false                  |
 |city           |string    |null:false                  |
 |house_number   |string    |null:false                  |
 |apartment      |string    |                            |
@@ -63,3 +65,16 @@
 ### Association
 
 - belongs_to : purchase_record
+
+## comments テーブル
+
+|Column    |Type      |Options                     |
+| -------- | -------- | -------------------------- |
+|text      |text      |null:false                  |
+|user      |references|null:false, foreign_key:true|
+|product   |references|null:false, foreign_key:true|
+
+## Association
+
+- belongs_to : user
+- belongs_to : products
